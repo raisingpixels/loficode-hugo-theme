@@ -1,0 +1,24 @@
+{{- $posts := slice -}}
+{{- range .Site.RegularPages -}}
+  {{- if eq .Type "posts" -}}
+    {{- $post := dict
+      "title" .Title
+      "url" .Permalink
+      "permalink" .Permalink
+      "date" (.Date.Format "2006-01-02")
+      "dateFormatted" (.Date.Format "January 2, 2006")
+      "summary" .Summary
+      "content" .Content
+      "excerpt" (truncate 200 .Summary)
+      "tags" .Params.tags
+      "subtitle" .Params.subtitle
+      "mood" .Params.mood
+      "readingTime" .ReadingTime
+      "wordCount" .WordCount
+      "featured" .Params.featured
+      "slug" .File.BaseFileName
+    -}}
+    {{- $posts = $posts | append $post -}}
+  {{- end -}}
+{{- end -}}
+{{- $posts | jsonify -}}

@@ -1,0 +1,22 @@
+{{- $posts := slice -}}
+{{- range (where .Site.RegularPages "Section" "eq" "posts") -}}
+  {{- $post := dict
+    "title" .Title
+    "url" .Permalink
+    "permalink" .Permalink
+    "date" (.Date.Format "2006-01-02")
+    "dateFormatted" (.Date.Format "2006.01.02")
+    "summary" .Summary
+    "content" .Content
+    "excerpt" (truncate 200 .Summary)
+    "tags" .Params.tags
+    "subtitle" .Params.subtitle
+    "mood" .Params.mood
+    "readingTime" .ReadingTime
+    "wordCount" .WordCount
+    "featured" .Params.featured
+    "slug" .File.BaseFileName
+  -}}
+  {{- $posts = $posts | append $post -}}
+{{- end -}}
+{{- $posts | jsonify -}}

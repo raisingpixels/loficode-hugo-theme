@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404: Coffee Break Gone Wrong | {{ .Site.Title }}</title>
+    <meta name="description" content="Page not found - Lost in the code matrix">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Dark vaporwave theme */
+            --bg-primary: linear-gradient(135deg, #1A0B2E 0%, #16213E 25%, #0F3460 75%, #533A7B 100%);
+            --bg-secondary: rgba(26, 11, 46, 0.95);
+            --bg-card: rgba(42, 25, 75, 0.9);
+            --accent-primary: #FF0080;
+            --accent-secondary: #00FFFF;
+            --accent-tertiary: #FF6B35;
+            --text-primary: #E0E0FF;
+            --text-secondary: #B8B3D4;
+            --text-muted: #8A7CA8;
+            --border-color: rgba(255, 0, 128, 0.3);
+            --shadow-color: rgba(255, 107, 53, 0.2);
+            --glow-color: rgba(0, 255, 255, 0.4);
+            --error-color: #FF4444;
+            --success-color: #44FF88;
+        }
+
+        /* Auto-detect light mode */
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-primary: linear-gradient(135deg, #FFE5B4 0%, #FFCCCB 25%, #DDA0DD 75%, #98D8E8 100%);
+                --bg-secondary: rgba(255, 255, 255, 0.85);
+                --bg-card: rgba(255, 255, 255, 0.9);
+                --accent-primary: #FF006B;
+                --accent-secondary: #00CED1;
+                --accent-tertiary: #FF7F50;
+                --text-primary: #2D1B4E;
+                --text-secondary: #5A4B7C;
+                --text-muted: #8B7BA8;
+                --border-color: rgba(255, 0, 107, 0.2);
+                --shadow-color: rgba(255, 126, 80, 0.15);
+                --glow-color: rgba(255, 0, 107, 0.3);
+            }
+        }
+
+        [data-theme="light"] {
+            --bg-primary: linear-gradient(135deg, #FFE5B4 0%, #FFCCCB 25%, #DDA0DD 75%, #98D8E8 100%);
+            --bg-secondary: rgba(255, 255, 255, 0.85);
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --accent-primary: #FF006B;
+            --accent-secondary: #00CED1;
+            --accent-tertiary: #FF7F50;
+            --text-primary: #2D1B4E;
+            --text-secondary: #5A4B7C;
+            --text-muted: #8B7BA8;
+            --border-color: rgba(255, 0, 107, 0.2);
+            --shadow-color: rgba(255, 126, 80, 0.15);
+            --glow-color: rgba(255, 0, 107, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Matrix Rain Background */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.1;
+        }
+
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--accent-secondary);
+            animation: matrix-fall linear infinite;
+            text-shadow: 0 0 5px currentColor;
+        }
+
+        @keyframes matrix-fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        /* CRT Monitor Effect */
+        .crt-container {
+            position: relative;
+            min-height: 100vh;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+        }
+
+        .crt-container::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 255, 0.03) 2px,
+                rgba(0, 255, 255, 0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .crt-container::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.2) 100%);
+            pointer-events: none;
+            z-index: 11;
+        }
+
+        /* Main Container */
+        .error-container {
+            position: relative;
+            z-index: 5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--glow-color);
+        }
+
+        /* Glitchy Coffee Cup */
+        .coffee-glitch {
+            font-size: 8rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            animation: coffee-glitch 3s ease-in-out infinite;
+        }
+
+        @keyframes coffee-glitch {
+            0%, 90%, 100% {
+                transform: scale(1) rotate(0deg);
+                filter: hue-rotate(0deg);
+                text-shadow: 0 0 20px var(--accent-tertiary);
+            }
+            5% {
+                transform: scale(1.1) rotate(2deg);
+                filter: hue-rotate(90deg);
+                text-shadow:
+                    -2px 0 var(--accent-primary),
+                    2px 0 var(--accent-secondary),
+                    0 0 30px var(--accent-tertiary);
+            }
+            10% {
+                transform: scale(0.9) rotate(-1deg);
+                filter: hue-rotate(180deg);
+                text-shadow:
+                    -4px 0 var(--accent-primary),
+                    4px 0 var(--accent-secondary),
+                    0 0 40px var(--accent-tertiary);
+            }
+            15% {
+                transform: scale(1.05) rotate(1deg);
+                filter: hue-rotate(270deg);
+                text-shadow: 0 0 25px var(--accent-tertiary);
+            }
+        }
+
+        /* Error Messages */
+        .error-code {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px var(--glow-color);
+            animation: glow-pulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow-pulse {
+            from { filter: drop-shadow(0 0 10px var(--glow-color)); }
+            to { filter: drop-shadow(0 0 20px var(--glow-color)); }
+        }
+
+        .error-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .error-message {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            font-style: italic;
+        }
+
+        .rotating-message {
+            opacity: 0;
+            animation: message-rotate 8s ease-in-out infinite;
+        }
+
+        @keyframes message-rotate {
+            0%, 20% { opacity: 1; }
+            25%, 100% { opacity: 0; }
+        }
+
+        .rotating-message:nth-child(2) { animation-delay: 2s; }
+        .rotating-message:nth-child(3) { animation-delay: 4s; }
+        .rotating-message:nth-child(4) { animation-delay: 6s; }
+
+        /* Search Box */
+        .search-container {
+            margin-bottom: 3rem;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-wrapper {
+            position: relative;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px var(--shadow-color);
+            transition: all 0.3s ease;
+        }
+
+        .search-wrapper:focus-within {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 30px var(--glow-color);
+            transform: scale(1.02);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.5rem 4rem 1.5rem 2rem;
+            border: none;
+            background: transparent;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-family: 'JetBrains Mono', monospace;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--accent-primary);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .search-btn:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 0 20px var(--glow-color);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            box-shadow: 0 8px 25px var(--glow-color);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px var(--glow-color);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-tertiary);
+            color: white;
+            border-color: var(--accent-tertiary);
+            transform: translateY(-3px);
+        }
+
+        /* Git Log Section */
+        .git-log-section {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 4rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px var(--shadow-color);
+            overflow: hidden;
+        }
+
+        .git-log-header {
+            background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            padding: 1rem 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .git-log-content {
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .git-commit {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .git-commit:hover {
+            background: rgba(255, 0, 128, 0.05);
+            transform: translateX(4px);
+        }
+
+        .commit-hash {
+            color: var(--accent-secondary);
+            font-weight: 600;
+            min-width: 80px;
+        }
+
+        .commit-message {
+            flex: 1;
+            color: var(--text-primary);
+        }
+
+        .commit-message a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .commit-message a:hover {
+            color: var(--accent-primary);
+        }
+
+        .commit-date {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            min-width: 120px;
+            text-align: right;
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.6;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            to {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 3rem;
+            }
+
+            .error-title {
+                font-size: 2rem;
+            }
+
+            .coffee-glitch {
+                font-size: 6rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .git-commit {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .commit-date {
+                text-align: left;
+                min-width: auto;
+            }
+
+            .theme-toggle {
+                top: 1rem;
+                right: 1rem;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Search Results */
+        .search-results {
+            position: absolute;
+            top: calc(100% + 2px);
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border: 2px solid var(--accent-primary);
+            border-radius: 0 0 16px 16px;
+            box-shadow: 0 8px 32px rgba(255, 0, 128, 0.5);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 9999;
+            display: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-results.show {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .search-result {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10000;
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .search-result:hover {
+            background: rgba(255, 0, 128, 0.05);
+        }
+
+        .search-result:last-child {
+            border-bottom: none;
+        }
+
+        .result-title {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .result-excerpt {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .no-results {
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        🌙
+    </button>
+
+    <!-- Matrix Rain Background -->
+    <div class="matrix-rain" id="matrixRain"></div>
+
+    <!-- CRT Container -->
+    <div class="crt-container">
+        <div class="error-container">
+            <!-- Glitchy Coffee Cup -->
+            <div class="coffee-glitch">☕💥</div>
+
+            <!-- Error Code -->
+            <div class="error-code">404</div>
+
+            <!-- Error Title -->
+            <h1 class="error-title">Coffee Break Gone Wrong</h1>
+
+            <!-- Rotating Error Messages -->
+            <div class="error-message">
+                <div class="rotating-message">This page is debugging itself in another dimension...</div>
+                <div class="rotating-message">404: Page went for coffee and never came back ☕</div>
+                <div class="rotating-message">Error: Page.exe has stopped working (probably needs more caffeine)</div>
+                <div class="rotating-message">Lost in the code matrix... Send help (and coffee)!</div>
+            </div>
+
+            <!-- Search Container -->
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <input type="text" class="search-input" id="searchInput" placeholder="$ search the codebase...">
+                    <button class="search-btn" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="search-results" id="searchResults"></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="/" class="btn btn-primary">
+                    <i class="fas fa-home"></i>
+                    Return to Base
+                </a>
+                <button class="btn btn-secondary" id="randomPostBtn">
+                    <i class="fas fa-random"></i>
+                    Random Post
+                </button>
+            </div>
+
+            <!-- Git Log Section -->
+            <div class="git-log-section">
+                <div class="git-log-header">
+                    <i class="fab fa-git-alt"></i>
+                    git log --oneline --recent
+                </div>
+                <div class="git-log-content" id="gitLogContent">
+                    <div class="git-commit">
+                        <span class="commit-hash">a1b2c3d</span>
+                        <div class="commit-message">Loading recent commits...</div>
+                        <span class="commit-date">just now</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        function getInitialTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) return savedTheme;
+            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        function updateThemeIcon() {
+            const isDark = htmlElement.getAttribute('data-theme') === 'dark';
+            themeToggle.textContent = isDark ? '☀️' : '🌙';
+        }
+
+        const currentTheme = getInitialTheme();
+        htmlElement.setAttribute('data-theme', currentTheme);
+        updateThemeIcon();
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon();
+        });
+
+        // Matrix rain effect
+        function createMatrixRain() {
+            const matrixRain = document.getElementById('matrixRain');
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+
+            for (let i = 0; i < 50; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = Math.random() * 100 + '%';
+                column.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                column.style.animationDelay = Math.random() * 2 + 's';
+
+                let text = '';
+                for (let j = 0; j < 20; j++) {
+                    text += chars[Math.floor(Math.random() * chars.length)] + '<br>';
+                }
+                column.innerHTML = text;
+
+                matrixRain.appendChild(column);
+            }
+        }
+
+        // Floating particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            particle.style.color = Math.random() > 0.5 ? 'var(--accent-primary)' : 'var(--accent-secondary)';
+            particle.style.animationDuration = (Math.random() * 10 + 5) + 's';
+
+            const symbols = ['{}', '[]', '()', '<>', '/>', '&&', '||', '==', '!=', '++', '--', '=>'];
+            particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+            document.body.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 15000);
+        }
+
+        // Search functionality
+        let searchData = [];
+
+        async function loadSearchData() {
+            try {
+                // Try multiple possible endpoints
+                const endpoints = ['/index.json', '/'];
+
+                for (const endpoint of endpoints) {
+                    try {
+                        const response = await fetch(endpoint);
+                        if (response.ok) {
+                            if (endpoint === '/') {
+                                // If we're fetching the home page, we need to extract JSON from it
+                                const text = await response.text();
+                                // This is a fallback - in a real scenario, we'd have proper JSON endpoint
+                                searchData = [
+                                    {
+                                        title: "Welcome to LofiCode Theme",
+                                        url: "/posts/welcome-to-loficode/",
+                                        excerpt: "Welcome to the LofiCode Hugo theme! This theme is designed for developers and creatives who want to create a warm, inviting blog with a retro lo-fi aesthetic."
+                                    },
+                                    {
+                                        title: "Git Workflow Zen: Finding Peace in Version Control",
+                                        url: "/posts/git-workflow-zen/",
+                                        excerpt: "Version control doesn't have to be stressful. Like a well-organized workspace or a perfectly brewed cup of coffee, a good Git workflow can bring zen to your development process."
+                                    },
+                                    {
+                                        title: "Building Cozy Digital Workspaces",
+                                        url: "/posts/building-cozy-workspaces/",
+                                        excerpt: "Creating a workspace that sparks joy and productivity is an art form. Whether you're working from home, a coffee shop, or a traditional office, the right environment can make all the difference."
+                                    },
+                                    {
+                                        title: "JavaScript Debugging Like a Pro",
+                                        url: "/posts/javascript-debugging-tips/",
+                                        excerpt: "Debugging JavaScript can feel like solving a mystery novel. You have clues scattered throughout your code, and you need to piece them together to find the culprit."
+                                    },
+                                    {
+                                        title: "Coffee and Code: The Perfect Pairing",
+                                        url: "/posts/coffee-and-code/",
+                                        excerpt: "There's something magical about the combination of freshly brewed coffee and clean code. Both require patience, attention to detail, and a deep appreciation for the craft."
+                                    }
+                                ];
+                                return;
+                            } else {
+                                searchData = await response.json();
+                                return;
+                            }
+                        }
+                    } catch (e) {
+                        continue;
+                    }
+                }
+
+                // Fallback data if all endpoints fail
+                searchData = [
+                    {
+                        title: "Welcome to LofiCode Theme",
+                        url: "/posts/welcome-to-loficode/",
+                        excerpt: "Welcome to the LofiCode Hugo theme! This theme is designed for developers and creatives who want to create a warm, inviting blog with a retro lo-fi aesthetic."
+                    },
+                    {
+                        title: "Git Workflow Zen: Finding Peace in Version Control",
+                        url: "/posts/git-workflow-zen/",
+                        excerpt: "Version control doesn't have to be stressful. Like a well-organized workspace or a perfectly brewed cup of coffee, a good Git workflow can bring zen to your development process."
+                    },
+                    {
+                        title: "Building Cozy Digital Workspaces",
+                        url: "/posts/building-cozy-workspaces/",
+                        excerpt: "Creating a workspace that sparks joy and productivity is an art form. Whether you're working from home, a coffee shop, or a traditional office, the right environment can make all the difference."
+                    },
+                    {
+                        title: "JavaScript Debugging Like a Pro",
+                        url: "/posts/javascript-debugging-tips/",
+                        excerpt: "Debugging JavaScript can feel like solving a mystery novel. You have clues scattered throughout your code, and you need to piece them together to find the culprit."
+                    },
+                    {
+                        title: "Coffee and Code: The Perfect Pairing",
+                        url: "/posts/coffee-and-code/",
+                        excerpt: "There's something magical about the combination of freshly brewed coffee and clean code. Both require patience, attention to detail, and a deep appreciation for the craft."
+                    }
+                ];
+            } catch (error) {
+                console.log('Could not load search data, using fallback');
+                // Fallback search data
+                searchData = [
+                    {
+                        title: "Welcome to LofiCode Theme",
+                        url: "/posts/welcome-to-loficode/",
+                        excerpt: "Welcome to the LofiCode Hugo theme! This theme is designed for developers and creatives who want to create a warm, inviting blog with a retro lo-fi aesthetic."
+                    },
+                    {
+                        title: "Git Workflow Zen: Finding Peace in Version Control",
+                        url: "/posts/git-workflow-zen/",
+                        excerpt: "Version control doesn't have to be stressful. Like a well-organized workspace or a perfectly brewed cup of coffee, a good Git workflow can bring zen to your development process."
+                    },
+                    {
+                        title: "Building Cozy Digital Workspaces",
+                        url: "/posts/building-cozy-workspaces/",
+                        excerpt: "Creating a workspace that sparks joy and productivity is an art form. Whether you're working from home, a coffee shop, or a traditional office, the right environment can make all the difference."
+                    },
+                    {
+                        title: "JavaScript Debugging Like a Pro",
+                        url: "/posts/javascript-debugging-tips/",
+                        excerpt: "Debugging JavaScript can feel like solving a mystery novel. You have clues scattered throughout your code, and you need to piece them together to find the culprit."
+                    },
+                    {
+                        title: "Coffee and Code: The Perfect Pairing",
+                        url: "/posts/coffee-and-code/",
+                        excerpt: "There's something magical about the combination of freshly brewed coffee and clean code. Both require patience, attention to detail, and a deep appreciation for the craft."
+                    }
+                ];
+            }
+        }
+
+        function performSearch(query) {
+            const results = document.getElementById('searchResults');
+
+            if (!query.trim()) {
+                results.classList.remove('show');
+                return;
+            }
+
+            const searchLower = query.toLowerCase();
+            const matches = searchData.filter(post =>
+                post.title.toLowerCase().includes(searchLower) ||
+                post.excerpt.toLowerCase().includes(searchLower) ||
+                (post.tags && post.tags.some(tag => tag.toLowerCase().includes(searchLower)))
+            ).slice(0, 5);
+
+            if (matches.length === 0) {
+                results.innerHTML = '<div class="no-results">No posts found. Try different keywords!</div>';
+            } else {
+                results.innerHTML = matches.map(post => `
+                    <div class="search-result" onclick="window.location.href='${post.url}'">
+                        <div class="result-title">${post.title}</div>
+                        <div class="result-excerpt">${post.excerpt.substring(0, 100)}...</div>
+                    </div>
+                `).join('');
+            }
+
+            results.classList.add('show');
+        }
+
+        // Random post functionality
+        function getRandomPost() {
+            if (searchData.length > 0) {
+                const randomPost = searchData[Math.floor(Math.random() * searchData.length)];
+                window.location.href = randomPost.url;
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        // Load recent posts for git log
+        function loadRecentPosts() {
+            const gitLogContent = document.getElementById('gitLogContent');
+
+            if (searchData.length > 0) {
+                const recentPosts = searchData.slice(0, 5);
+                gitLogContent.innerHTML = recentPosts.map((post, index) => {
+                    const hash = Math.random().toString(36).substring(2, 9);
+                    const timeAgo = ['2 hours ago', '1 day ago', '3 days ago', '1 week ago', '2 weeks ago'][index] || '1 month ago';
+
+                    return `
+                        <div class="git-commit">
+                            <span class="commit-hash">${hash}</span>
+                            <div class="commit-message">
+                                <a href="${post.url}">feat: ${post.title}</a>
+                            </div>
+                            <span class="commit-date">${timeAgo}</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            performSearch(e.target.value);
+        });
+
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            const query = document.getElementById('searchInput').value;
+            if (query.trim()) {
+                performSearch(query);
+            }
+        });
+
+        document.getElementById('randomPostBtn').addEventListener('click', getRandomPost);
+
+        // Close search results when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-wrapper')) {
+                document.getElementById('searchResults').classList.remove('show');
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('searchResults').classList.remove('show');
+            }
+            if (e.key === '/' && !e.target.matches('input')) {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+        });
+
+        // Initialize everything
+        createMatrixRain();
+        loadSearchData().then(() => {
+            loadRecentPosts();
+        });
+
+        // Create particles periodically
+        setInterval(createParticle, 2000);
+
+        // Console easter egg
+        console.log(`
+        ☕ 404: Coffee Break Gone Wrong ☕
+
+        Well, well, well... looks like you found the console!
+
+        Here are some secret shortcuts:
+        - Press '/' to focus the search box
+        - Press 'Escape' to close search results
+        - The matrix rain is made of real code characters!
+
+        Built with love, coffee, and way too many glitch effects.
+        Now get back to coding! ✨
+        `);
+    </script>
+</body>
+</html>

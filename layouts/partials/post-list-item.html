@@ -1,0 +1,51 @@
+<!-- Fixed post-list-item.html partial -->
+<article class="post-item{{ if .Params.featured }} featured{{ end }}">
+  <div class="post-content">
+    <div class="post-header-inline">
+      <h2 class="post-title-vaporwave">
+        <a href="{{ .Permalink }}">{{ .Title }}</a>
+      </h2>
+    </div>
+
+    <div class="post-date-with-badges">
+      <span class="post-date">{{ .Date.Format "2006.01.02" }}</span>
+      {{ if .Params.featured }}
+      <span class="featured-badge">✨ Featured</span>
+      {{ end }} {{ if .Params.mood }}
+      <span class="post-mood">{{ .Params.mood }}</span>
+      {{ end }}
+    </div>
+
+    {{ if .Params.subtitle }}
+    <p class="post-list-subtitle">{{ .Params.subtitle }}</p>
+    {{ end }}
+
+    <p class="post-excerpt-vaporwave">
+      {{ .Summary | plainify | truncate 160 }}
+    </p>
+
+    {{ if .Params.tags }}
+    <div class="post-tags-vaporwave">
+      {{ range .Params.tags }}
+      <span class="post-tag-vaporwave">{{ . }}</span>
+      {{ end }}
+    </div>
+    {{ end }}
+
+    <a href="{{ .Permalink }}" class="continue-reading-vaporwave">
+      Read More →
+    </a>
+  </div>
+
+  <div class="post-meta-sidebar">
+    <div class="reading-time-vaporwave">
+      <span class="coffee-cups">
+        {{ $coffees := "" }} {{ $maxCups := 5 }} {{ $cupsToShow := .ReadingTime
+        }} {{ if gt .ReadingTime $maxCups }} {{ $cupsToShow = $maxCups }} {{ end
+        }} {{ range (seq $cupsToShow) }} {{ $coffees = print $coffees "☕" }} {{
+        end }} {{ $coffees }}
+      </span>
+      <span>{{ .ReadingTime }} min</span>
+    </div>
+  </div>
+</article>

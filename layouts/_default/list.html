@@ -1,0 +1,77 @@
+{{ define "main" }}
+<div class="container">
+  {{ if .IsHome }}
+  <div class="author-profile-section">
+    <div class="profile-photo-container">
+      <img
+        src="{{ .Site.Params.profile_photo | absLangURL }}"
+        alt="{{ .Site.Params.author }}"
+        class="profile-photo"
+      />
+    </div>
+    <p class="profile-tagline">{{ .Site.Params.tagline }}</p>
+    <div class="social-links">
+      {{ if .Site.Params.github }}
+      <a
+        href="{{ .Site.Params.github }}"
+        target="_blank"
+        rel="noopener"
+        class="social-link"
+        title="GitHub"
+      >
+        <i class="fab fa-github social-icon"></i>
+      </a>
+      {{ end }} {{ if .Site.Params.twitter }}
+      <a
+        href="{{ .Site.Params.twitter }}"
+        target="_blank"
+        rel="noopener"
+        class="social-link"
+        title="X (formerly Twitter)"
+      >
+        <span class="social-icon x-icon">𝕏</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }} {{ if .IsHome }}
+  <div class="filter-section">
+    <div class="filter-tags">
+      <div class="tag active">All</div>
+      {{ range .Site.Taxonomies.tags.ByCount }}
+      <div class="tag" data-tag="{{ .Name | urlize }}">{{ .Name }}</div>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <div class="posts-list" id="posts-container">
+    {{ $posts := where .Site.RegularPages "Section" "eq" "posts" }} {{
+    $postsPerPage := 3 }} {{ range first $postsPerPage $posts }} {{ partial
+    "post-list-item.html" . }} {{ end }}
+  </div>
+
+  {{ $posts := where .Site.RegularPages "Section" "eq" "posts" }} {{ if gt (len
+  $posts) 3 }}
+  <div class="load-more-section">
+    <button
+      id="load-more-btn"
+      class="load-more-btn"
+      data-loaded="3"
+      data-total="{{ len $posts }}"
+    >
+      <span class="load-more-text">Load More Posts</span>
+      <span class="load-more-icon">☕</span>
+    </button>
+    <div class="load-more-loading" id="load-more-loading" style="display: none">
+      <span class="loading-text">Brewing more content...</span>
+      <div class="loading-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  {{ end }}
+</div>
+{{ end }}

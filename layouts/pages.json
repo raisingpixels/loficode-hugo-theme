@@ -1,0 +1,27 @@
+{{- $pages := slice -}}
+{{- range .Site.RegularPages -}}
+  {{- if and (ne .Section "posts") (ne .Kind "home") -}}
+    {{- $page := dict
+      "title" .Title
+      "url" .Permalink
+      "permalink" .Permalink
+      "date" (.Date.Format "2006-01-02")
+      "dateFormatted" (.Date.Format "2006.01.02")
+      "summary" .Summary
+      "content" .Content
+      "excerpt" (truncate 200 .Summary)
+      "tags" .Params.tags
+      "subtitle" .Params.subtitle
+      "mood" .Params.mood
+      "readingTime" .ReadingTime
+      "wordCount" .WordCount
+      "featured" .Params.featured
+      "slug" .File.BaseFileName
+      "section" .Section
+      "type" .Type
+      "kind" .Kind
+    -}}
+    {{- $pages = $pages | append $page -}}
+  {{- end -}}
+{{- end -}}
+{{- $pages | jsonify -}}

@@ -1,0 +1,34 @@
+<header class="site-header">
+    <nav>
+        <div class="nav-left">
+            <a href="{{ "/" | absLangURL }}" class="logo">{{ .Site.Title }}</a>
+        </div>
+
+        <div class="nav-links">
+            {{ range .Site.Menus.main }}
+            <a href="{{ .URL | absLangURL }}" class="nav-link">{{ .Name }}</a>
+            {{ end }}
+        </div>
+
+        <div class="header-controls">
+            <button class="search-toggle" title="Search posts">🔍</button>
+            <button class="theme-toggle" title="Toggle dark mode">🌙</button>
+        </div>
+    </nav>
+
+    <!-- Sliding Search Form -->
+    <div class="search-form-container" id="searchForm">
+        <div class="search-form">
+            <div class="search-input-wrapper">
+                <input type="text" id="searchInput" placeholder="Search posts..." autocomplete="off">
+                <button class="search-submit" type="button">
+                    <span>🔍</span>
+                </button>
+                <button class="search-close" type="button">
+                    <span>✕</span>
+                </button>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
+</header>

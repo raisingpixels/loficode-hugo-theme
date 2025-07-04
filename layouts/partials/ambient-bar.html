@@ -1,0 +1,27 @@
+<div class="ambient-bar">
+    <div class="ambient-controls">
+        <button class="mute-toggle muted" title="Toggle ambient sounds">
+            <i class="fas fa-volume-mute"></i>
+        </button>
+        <button class="ambient-icon" data-sound="coffee" title="Coffee Shop Ambience">
+            <i class="fas fa-coffee"></i>
+        </button>
+        <button class="ambient-icon" data-sound="rain" title="Gentle Rain">
+            <i class="fas fa-cloud-rain"></i>
+        </button>
+        <button class="ambient-icon" data-sound="fireplace" title="Crackling Fireplace">
+            <i class="fas fa-fire"></i>
+        </button>
+    </div>
+
+    <div class="ambient-label">Click to start ambient sounds</div>
+
+    <div class="volume-container">
+        <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="{{ .Site.Params.ambient_sounds.default_volume }}">
+        <div class="equalizer muted">
+            {{ range (seq 8) }}
+            <div class="equalizer-bar"></div>
+            {{ end }}
+        </div>
+    </div>
+</div>

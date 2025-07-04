@@ -1,0 +1,74 @@
+baseURL = "https://example.com"
+languageCode = "en-us"
+title = "LofiCode Hugo Theme"
+theme = "loficode"
+
+# Enable emoji support
+enableEmoji = true
+
+# Output formats for SPA functionality
+[outputs]
+  home = ["HTML", "JSON", "pages"]
+  page = ["HTML"]
+  section = ["HTML"]
+
+# Custom output formats
+[outputFormats]
+  [outputFormats.JSON]
+    mediaType = "application/json"
+    baseName = "index"
+    isPlainText = true
+  [outputFormats.pages]
+    mediaType = "application/json"
+    baseName = "pages"
+    isPlainText = true
+
+# Pagination
+[pagination]
+  pagerSize = 6
+  path = "page"
+
+[params]
+  description = "A cozy example site showcasing the LofiCode Hugo theme"
+  tagline = "Coding with coffee and lo-fi beats ☕🎵"
+
+  # Profile section
+  [params.author]
+    name = "LofiCode Dev"
+    image = "/images/profile.png"
+
+  # Social links - Supported platforms: github, twitter, linkedin, email, mastodon, youtube, instagram, facebook
+  [params.social]
+    github = "https://github.com/example"
+    twitter = "https://twitter.com/example"
+    # linkedin = "https://linkedin.com/in/example"
+    # email = "contact@example.com"
+    # mastodon = "https://mastodon.social/@example"
+    # youtube = "https://youtube.com/@example"
+    # instagram = "https://instagram.com/example"
+    # facebook = "https://facebook.com/example"
+
+# Main navigation menu
+[[menu.main]]
+  name = "About"
+  url = "/about/"
+  weight = 10
+
+[[menu.main]]
+  name = "Contact"
+  url = "/contact/"
+  weight = 20
+
+# Markup configuration for syntax highlighting
+[markup]
+  [markup.highlight]
+    style = "dracula"
+    lineNos = true
+    lineNumbersInTable = false
+    tabWidth = 2
+    noClasses = false
+
+# Taxonomies
+[taxonomies]
+  tag = "tags"
+  category = "categories"

@@ -1,0 +1,76 @@
+{{ define "main" }}
+<div class="container">
+    <div class="taxonomy-header">
+        <div class="breadcrumb">
+            <a href="{{ "/" | absLangURL }}">Home</a>
+            <span class="breadcrumb-separator">→</span>
+            <a href="{{ "/tags/" | absLangURL }}">Tags</a>
+            <span class="breadcrumb-separator">→</span>
+            <span class="current-page">{{ .Title }}</span>
+        </div>
+
+        <h1 class="taxonomy-title">
+            <span class="tag-emoji">🏷️</span>
+            {{ .Title }}
+        </h1>
+
+        <p class="taxonomy-subtitle">
+            {{ .Pages.Len }} post{{ if ne .Pages.Len 1 }}s{{ end }} tagged with "{{ .Title }}"
+        </p>
+    </div>
+
+    <!-- Related tags -->
+    {{ $currentTag := .Title }}
+    {{ $relatedTags := slice }}
+    {{ range .Pages }}
+        {{ range .Params.tags }}
+            {{ if ne . $currentTag }}
+                {{ $relatedTags = $relatedTags | append . }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+
+    {{ if $relatedTags }}
+    <div class="related-tags-section">
+        <h3>Related Topics</h3>
+        <div class="related-tags">
+            {{ range ($relatedTags | uniq | first 8) }}
+            <a href="{{ printf "/tags/%s/" (. | urlize) | absLangURL }}" class="related-tag">{{ . }}</a>
+            {{ end }}
+        </div>
+    </div>
+    {{ end }}
+
+    <!-- Posts list -->
+    <div class="posts-list">
+        {{ $paginator := .Paginate .Pages }}
+        {{ range $paginator.Pages }}
+        {{ partial "post-list-item.html" . }}
+        {{ end }}
+    </div>
+
+    <!-- Pagination -->
+    {{ if gt $paginator.TotalPages 1 }}
+    <div class="pagination">
+        {{ if $paginator.HasPrev }}
+        <a href="{{ $paginator.Prev.URL }}" class="pagination-btn">← Previous</a>
+        {{ end }}
+
+        <div class="pagination-info">
+            Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}
+        </div>
+
+        {{ if $paginator.HasNext }}
+        <a href="{{ $paginator.Next.URL }}" class="pagination-btn">Next →</a>
+        {{ end }}
+    </div>
+    {{ end }}
+
+    <!-- Back to all tags -->
+    <div class="taxonomy-footer">
+        <a href="{{ "/tags/" | absLangURL }}" class="back-to-tags">
+            ← Browse all tags
+        </a>
+    </div>
+</div>
+{{ end }}

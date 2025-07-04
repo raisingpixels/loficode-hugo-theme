@@ -1,0 +1,18 @@
+name = "LofiCode"
+license = "MIT"
+licenselink = "https://github.com/raisingpixels/loficode-hugo-theme/blob/master/LICENSE"
+description = "A cozy, lo-fi inspired Hugo theme. Features ambient sounds, dark/light themes, and a retro aesthetic with modern functionality."
+
+# The home page of the theme, where the source can be found.
+homepage = "https://github.com/raisingpixels/loficode-hugo-theme"
+
+# If you have a running demo of the theme.
+demosite = "https://raisingpixels.dev/loficode-hugo-theme"
+
+tags = ["blog", "personal", "portfolio", "developer", "creative", "dark", "light", "responsive", "retro", "lo-fi"]
+features = ["ambient-sounds", "dark-mode", "light-mode", "responsive", "search", "toc", "syntax-highlighting", "coffee-theme", "retro-aesthetic", "spa-navigation"]
+
+# Theme author
+[author]
+    name = "raisingpixels"
+    homepage = "https://github.com/raisingpixels"

@@ -1,0 +1,50 @@
+{{ define "main" }}
+<div class="container">
+  <div class="taxonomy-header">
+    <h1 class="taxonomy-title">All Tags</h1>
+    <p class="taxonomy-subtitle">
+      Explore content by topic and find exactly what you're looking for
+    </p>
+  </div>
+
+  <div class="tags-cloud">
+    {{ range .Site.Taxonomies.tags.ByCount }}
+    <a
+      href="{{ .Page.Permalink }}"
+      class="tag-cloud-item"
+      data-count="{{ .Count }}"
+    >
+      <span class="tag-name">{{ .Page.Title }}</span>
+      <span class="tag-count">{{ .Count }}</span>
+    </a>
+    {{ end }}
+  </div>
+
+  <div class="tags-list">
+    <h2 class="section-title">Browse by Category</h2>
+    <div class="tags-grid">
+      {{ range .Site.Taxonomies.tags.Alphabetical }}
+      <div class="tag-card">
+        <div class="tag-card-header">
+          <h3><a href="{{ .Page.Permalink }}">{{ .Page.Title }}</a></h3>
+          <span class="post-count"
+            >{{ .Count }} post{{ if ne .Count 1 }}s{{ end }}</span
+          >
+        </div>
+        <div class="tag-preview">
+          {{ range first 3 .Pages }}
+          <p class="preview-post">
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+          </p>
+          {{ end }} {{ if gt .Count 3 }}
+          <div class="more-posts">
+            <a href="{{ .Page.Permalink }}">+{{ sub .Count 3 }} more...</a>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</div>
+{{ end }}
