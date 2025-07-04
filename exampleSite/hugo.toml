@@ -35,7 +35,7 @@ enableEmoji = true
   # Profile section
   [params.author]
     name = "LofiCode Dev"
-    image = "/images/profile.png"
+    image = "images/profile.png"
 
   # Social links - Supported platforms: github, twitter, linkedin, email, mastodon, youtube, instagram, facebook
   [params.social]
